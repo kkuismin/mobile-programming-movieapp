@@ -12,7 +12,7 @@ import apiConfig from '../apiConfig';
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-export default function SearchScreen() {
+export default function SearchScreen({ navigation }) {
 
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -109,7 +109,7 @@ export default function SearchScreen() {
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({item}) =>
             <View style={{flex:1, flexDirection:'row'}}>
-              {item.primaryImage ?
+              { item.primaryImage ?
                 <Image 
                   style={styles.img} 
                   source={{  uri: item.primaryImage.url }} />
@@ -133,6 +133,12 @@ export default function SearchScreen() {
                     } 
                   </Text>
                   <View style={styles.button}>
+                    <Button 
+                      titleStyle={{fontSize: 16}}
+                      title='Read more'
+                      onPress={() => navigation.navigate('Movie details', {movieData: item})} />
+                  </View>
+                  <View style={styles.button}>
                     <Button
                       titleStyle={{fontSize: 16}}
                       title='Favorite'
@@ -141,8 +147,7 @@ export default function SearchScreen() {
                         size: 16,
                         name: 'bookmark-outline',
                         type: 'ionicon',
-                        color: '#ffffff'}}
-                    />
+                        color: '#ffffff'}} />
                   </View>
                 </View>
               </View>} /> 
@@ -195,5 +200,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
+    marginBottom: 10,
   },
 });

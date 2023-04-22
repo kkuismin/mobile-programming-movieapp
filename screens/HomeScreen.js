@@ -11,12 +11,6 @@ import apiConfig from '../apiConfig';
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-/*  
-fetch(url, options)
-.then(response => response.json())
-.then(data => setMovies(data.results))
-.catch(error => console.log(error)); */
-
 export default function HomeScreen({ navigation }) {
 
   const [movies, setMovies] = useState([]);
@@ -74,7 +68,7 @@ export default function HomeScreen({ navigation }) {
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({item}) =>
             <View style={{flex:1, flexDirection:'row'}}>
-              {item.primaryImage ?
+              { item.primaryImage ?
                 <Image 
                 style={styles.img} 
                 source={{  uri: item.primaryImage.url }} />
@@ -83,7 +77,7 @@ export default function HomeScreen({ navigation }) {
               }
               <View style={{flexDirection: 'column', paddingLeft:20, width:'60%'}}> 
                 <Text style={styles.h2}>{ item.titleText.text }
-                  {item.releaseYear == null ?
+                  { item.releaseYear == null ?
                     <Text> (Year unknown)</Text>
                   :
                     <Text> ({ item.releaseYear.year })</Text>
@@ -101,8 +95,10 @@ export default function HomeScreen({ navigation }) {
                   <Button 
                     titleStyle={{fontSize: 16}}
                     title='Read more'
-                    onPress={() => navigation.navigate('MovieDetails', {movieData: item})}
+                    onPress={() => navigation.navigate('Movie details', {movieData: item})}
                   />
+                </View>
+                <View style={styles.button}>
                   <Button
                     titleStyle={{fontSize: 16}}
                     title='Favorite'
@@ -151,5 +147,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
+    marginBottom: 10,
   }
 });

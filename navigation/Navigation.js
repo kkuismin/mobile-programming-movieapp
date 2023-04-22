@@ -13,9 +13,9 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        backBehavior= "history"
         screenOptions={({ route }) => ({
           tabBarStyle: { backgroundColor: '#7D1538' },
-          //headerShown: false,
           headerStyle: { backgroundColor: '#7D1538' },
           headerTitleStyle: { color: 'white' },
           tabBarIcon: ({ focused, size, color }) => {
@@ -34,7 +34,7 @@ export default function Navigation() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
-        <Tab.Screen name="MovieDetails" component={MovieDetailsScreen} options={{ tabBarButton: () => null }}/>
+        <Tab.Screen name="Movie details" component={MovieDetailsScreen} options={{ tabBarButton: () => null }}/>
       </Tab.Navigator>
     </NavigationContainer>
   )

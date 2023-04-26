@@ -58,10 +58,10 @@ export default function MovieDetailsScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.moviecontainer} showsVerticalScrollIndicator={false}>
-        {movieData.primaryImage ?
+        { movieData.primaryImage ?
           <Image 
             style={styles.img} 
-            source={{  uri: movieData.primaryImage.url }} />
+            source={{ uri: movieData.primaryImage.url }} />
           :
           <Skeleton animation="none" width={200} height={300} style={{marginTop: 10}}/>
         }

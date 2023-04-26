@@ -63,10 +63,10 @@ export default function SearchScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.h1}>Movie search</Text>
       <Input 
-            inputContainerStyle={ styles.input }
-            placeholder='Movie title'
-            onChangeText={search => setSearch(search)}
-            value={search} />
+        inputContainerStyle={ styles.input }
+        placeholder='Movie title'
+        onChangeText={search => setSearch(search)}
+        value={search} />
       <View style={{ flexDirection: 'row', margin: 10 }}>
         <View style={{ flex: 1 }}>
           <View style={styles.picker}>
@@ -155,7 +155,6 @@ export default function SearchScreen({ navigation }) {
     </View>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

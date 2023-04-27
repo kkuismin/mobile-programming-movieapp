@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, Alert, FlatList } from 'react-native';
-import { Text, Button, Skeleton } from '@rneui/themed';
+import { Text, Button, Skeleton, Icon } from '@rneui/themed';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
@@ -46,73 +46,99 @@ export default function HomeScreen({ navigation }) {
   const addFavorite = (item) => {
     push(
       ref(database, 'items/'),
-      { 'title': item.titleText.text, 'uri': item.primaryImage.url, 'year': item.releaseYear.year, 'rating': item.ratingsSummary.aggregateRating });
+      { 
+        'title': item.titleText.text, 
+        'uri': item.primaryImage.url, 
+        'year': item.releaseYear.year, 
+        'rating': item.ratingsSummary.aggregateRating 
+      });
+      Alert.alert('Movie added to favorites')
+  }
+
+  const confirmFavorite = (item) => {
+    Alert.alert(
+      'Add the movie to favorites?',
+      '',
+      [
+        { 
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => addFavorite(item),
+        }
+      ],
+      {
+        cancelable: true
+      }
+    );
   }
 
   const ItemSeparator = () => <View
     style={{
       height: 2,
       width: "100%",
-      marginBottom: 10,
+      marginBottom: 20,
     }}
   />
 
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Highest rated movies</Text>
-      <View style={{flex:1, margin: 10}}>
+      <View style={styles.listContainer}>
         <FlatList
           keyExtractor={item => item.id}
           data={movies}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({item}) =>
-            <View style={{flex:1, flexDirection:'row'}}>
-              { item.primaryImage ?
-                <Image 
-                style={styles.img} 
-                source={{  uri: item.primaryImage.url }} />
-                :
-                <Skeleton animation="none" width={100} height={160} style={{marginTop: 10}}/>
-              }
-              <View style={{flexDirection: 'column', paddingLeft:20, width:'60%'}}> 
-                <Text style={styles.h2}>{ item.titleText.text }
-                  { item.releaseYear == null ?
+            <View style={styles.itemContainer}>
+              {item.primaryImage ? (
+                <Image style={styles.img} source={{ uri: item.primaryImage.url }} />
+              ) : (
+                <Skeleton animation="none" width={100} height={160} style={{ marginTop: 10 }}/>
+              )}
+              <View style={styles.textContainer}> 
+                <Text style={styles.h2}>{item.titleText.text}
+                  {item.releaseYear == null ? (
                     <Text> (Year unknown)</Text>
-                  :
-                    <Text> ({ item.releaseYear.year })</Text>
-                  }
+                  ) : (
+                    <Text> ({item.releaseYear.year})</Text>
+                  )}
                 </Text>
                 <Text style={styles.text}>
                   <Ionicons name="star"> </Ionicons>
-                  { item.ratingsSummary.aggregateRating == null ? 
-                    <Text>No rating </Text>
-                    :
-                    <Text>{ item.ratingsSummary.aggregateRating } </Text>
-                  } 
+                  {item.ratingsSummary.aggregateRating == null ? (
+                    <Text>No rating</Text>
+                  ) : (
+                    <Text>{item.ratingsSummary.aggregateRating}</Text>
+                  )} 
                 </Text>
-                <View style={styles.button}>
-                  <Button 
-                    titleStyle={{fontSize: 16}}
-                    title='Read more'
-                    onPress={() => navigation.navigate('Movie details', {movieData: item})}
-                  />
-                </View>
-                <View style={styles.button}>
-                  <Button
-                    titleStyle={{fontSize: 16}}
-                    title='Favorite'
-                    onPress={() => addFavorite(item)}                  
-                    icon={{
-                      size: 16,
-                      name: 'bookmark-outline',
-                      type: 'ionicon',
-                      color: '#ffffff'}}
-                  />
+                <View style={styles.buttonContainer}>
+                  <View style={styles.button}>
+                    <Button
+                      titleStyle={{ fontSize: 16 }}
+                      title='Read more'
+                      color='#C95F82'
+                      onPress={() => navigation.navigate('Movie details', { movieData: item })}
+                    />
+                  </View>
+                  <View style={{ flex:1 }}>
+                    <View style={styles.button}>
+                      <Icon
+                        onPress={() => confirmFavorite(item)} 
+                        size={30}           
+                        name='bookmark'
+                        type='ionicon'
+                        color='#7D1538'
+                      />
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>} />
-        </View>    
+            </View>} 
+        />
+      </View>    
     </View>
   )
 }
@@ -130,22 +156,41 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   h2: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'left',
     marginTop: 10,
     marginBottom: 10,
   },
-  text: {
-    marginBottom: 10,
+  listContainer: {
+    flex: 1, 
+    margin: 10,
+  },
+  itemContainer: {
+    flex: 1, 
+    flexDirection:'row', 
   },
   img: {
     width: 100,
     height: 160,
     marginTop: 10,
   },
+  textContainer: {
+    flexDirection: 'column', 
+    paddingLeft:20, 
+    width:'60%', 
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  buttonContainer: {
+    flex: 1, 
+    flexDirection: 'row',
+  },
   button: {
     width: 100,
-    marginBottom: 10,
+    marginTop: 10,
+    marginRight: 10,
   }
 });

@@ -1,6 +1,5 @@
 import { StyleSheet, View, Image, Alert, ScrollView } from 'react-native';
-import { Text, Button, Skeleton, Input } from '@rneui/themed';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Text, Button, Skeleton } from '@rneui/themed';
 import { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue } from 'firebase/database';
@@ -49,69 +48,103 @@ export default function MovieDetailsScreen({ route, navigation }) {
     });
   }, []);
 
-  const addFavorite = (item) => {
+  const addFavorite = (movieData) => {
     push(
       ref(database, 'items/'),
-      { 'title': movieData.titleText.text, 'uri': movieData.primaryImage.url, 'year': movieData.releaseYear.year, 'rating': movieData.ratingsSummary.aggregateRating });
+      { 
+        'title': movieData.titleText.text, 
+        'uri': movieData.primaryImage.url, 
+        'year': movieData.releaseYear.year, 
+        'rating': movieData.ratingsSummary.aggregateRating 
+      });
+    Alert.alert('Movie added to favorites')
+  }
+
+  const confirmFavorite = (movieData) => {
+    Alert.alert(
+      'Add the movie to favorites?',
+      '',
+      [
+        { 
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => addFavorite(movieData),
+        }
+      ],
+      {
+        cancelable: true
+      }
+    );
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.moviecontainer} showsVerticalScrollIndicator={false}>
-        { movieData.primaryImage ?
-          <Image 
-            style={styles.img} 
-            source={{ uri: movieData.primaryImage.url }} />
-          :
-          <Skeleton animation="none" width={200} height={300} style={{marginTop: 10}}/>
-        }
+      <ScrollView 
+        contentContainerStyle={styles.movieContainer} 
+        showsVerticalScrollIndicator={false}
+      >
+        {movieData.primaryImage ? (
+          <Image style={styles.img} source={{ uri: movieData.primaryImage.url }} />
+        ) : (
+          <Skeleton animation="none" width={200} height={300} style={{ marginTop: 10 }}/>
+        )}
         <Text style={styles.h1}>{movieData.titleText.text}</Text>
-        <View style={styles.textcontainer}>
-          { movieData.releaseYear == null ?
-            <Text style={styles.text}>Release year: Year unknown</Text>
-          :
-            <Text style={styles.text}>Release year: { movieData.releaseYear.year }</Text>
-          }
-          { movieData.ratingsSummary.aggregateRating == null ? 
-            <Text style={styles.text}>Rating: No rating </Text>
-          :
-            <Text style={styles.text}>Rating: { movieData.ratingsSummary.aggregateRating } </Text>
-          }
-          <Text style={styles.text}>Genres: 
-            { movieData.genres.genres.map((genre) => (
-              <Text key={genre.id}> { genre.text }</Text>
+        <View style={styles.textContainer}>
+        <Text style={styles.h2}>Release year:</Text>
+          {movieData.releaseYear == null ? (
+            <Text style={styles.text}>Year unknown</Text>
+          ) : (
+            <Text style={styles.text}>{movieData.releaseYear.year}</Text>
+          )}
+          <Text style={styles.h2}>Rating:</Text>
+          {movieData.ratingsSummary.aggregateRating == null ? (
+            <Text style={styles.text}>No rating</Text>
+          ) : (
+            <Text style={styles.text}>{movieData.ratingsSummary.aggregateRating}</Text>
+          )}
+          <Text style={styles.h2}>Genres:</Text>
+          <Text style={styles.text}>
+            {movieData.genres.genres.map((genre) => (
+              <Text key={genre.id}>{genre.text} </Text>
             ))}
           </Text>
-          { cast.principalCast == undefined || cast.principalCast.length == 0 ?
-            <Text style={styles.text}>Main Cast: Not found</Text>
-            :
-            <Text style={styles.text}>Main cast:
-              { cast.principalCast[0].credits.map((actor) => (
-                <Text key={actor.name.id}> {actor.name.nameText.text} </Text>
+          <Text style={styles.h2}>Main Cast:</Text>
+          {cast.principalCast == undefined || cast.principalCast.length == 0 ? (
+            <Text style={styles.text}>Not found</Text>
+          ) : (
+            <Text style={styles.text}>
+              {cast.principalCast[0].credits.map((actor) => (
+                <Text key={actor.name.id}>{actor.name.nameText.text} </Text>
               ))}
             </Text>
-          }
-          { movieData.plot == null ?
-            <Text style={styles.text}>Plot summary: No summary</Text>
-          :
-            <Text style={styles.text}>Plot summary: { movieData.plot.plotText.plainText }</Text>
-          }
+          )}
+          <Text style={styles.h2}>Plot summary: </Text>
+          {movieData.plot == null ? (
+            <Text style={styles.text}>No summary</Text>
+          ) : (
+            <Text style={styles.text}>{movieData.plot.plotText.plainText}</Text>
+          )}
         </View>
         <View style={styles.button}>
           <Button
-            titleStyle={{fontSize: 16}}
+            titleStyle={{ fontSize: 16 }}
             title='Favorite'
-            onPress={() => addFavorite(movieData)}                  
+            color='#7D1538'
+            onPress={() => confirmFavorite(movieData)}                  
             icon={{
               size: 16,
               name: 'bookmark-outline',
               type: 'ionicon',
-              color: '#ffffff'}} />
+              color: '#ffffff'}} 
+          />
         </View>
         <View style={styles.button}>
           <Button
-            titleStyle={{fontSize: 16}}
+            titleStyle={{ fontSize: 16 }}
             title='Back'
+            color='#C95F82'
             onPress={() => navigation.goBack()}
           />
         </View>
@@ -130,12 +163,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
   },
-  moviecontainer: {
+  movieContainer: {
     width: 350,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcontainer: {
+  textContainer: {
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginBottom: 20,
@@ -145,6 +178,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     margin: 20,
+  },
+  h2: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   img: {
     width: 200,
@@ -157,6 +195,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
-    marginBottom: 10,
+    marginBottom: 20,
   },
 });

@@ -23,11 +23,11 @@ export default function App() {
     
   const getScreen = () => {
     if (loggedIn) {
-      return <Navigation/>;
+      return <Navigation />;
     }
     return (
       <View style={styles.container}>
-        <SigninScreen/>
+        <SigninScreen />
       </View>
     )
   }

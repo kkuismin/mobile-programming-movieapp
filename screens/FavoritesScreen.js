@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, FlatList } from 'react-native';
+import { StyleSheet, View, Image, FlatList, Alert } from 'react-native';
 import { Text, Button, Skeleton } from '@rneui/themed';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
@@ -26,6 +26,26 @@ export default function FavoritesScreen() {
   const deleteFavorite = (key) => {
     remove(
       ref(database, 'items/' + key))
+    Alert.alert('Movie deleted from favorites')
+  }
+
+  const confirmDelete = (key) => {
+    Alert.alert(
+      'Delete',
+      'Are you sure you want to delete the movie from your favorites?',
+      [
+        { 
+          text: 'Cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => deleteFavorite(key),
+        }
+      ],
+      {
+        cancelable: true
+      }
+    );
   }
 
   const ItemSeparator = () => <View
@@ -34,50 +54,53 @@ export default function FavoritesScreen() {
       width: "100%",
       marginBottom: 10,
     }}
-  />
+    />
 
   return (
     <View style={styles.container}>
       <Text style={styles.h1}>Favorites</Text>
-      <View style={{flex:1, margin: 10}}>
+      <View style={styles.listContainer}>
         <FlatList
           keyExtractor={item => item.key}
           data={favorites}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({item}) =>
-            <View style={{flex:1, flexDirection:'row', marginBottom: 10}}>
-              {item.uri ?
+            <View style={styles.itemContainer}>
+              {item.uri ? (
                 <Image 
-                style={styles.img} 
-                source={{ uri: item.uri }} />
-                :
-                <Skeleton animation="none" width={100} height={160} style={{marginTop: 10}}/>
-              }
-              <View style={{flexDirection: 'column', paddingLeft:20, width:'60%'}}>
-                <Text style={styles.h2}>{ item.title } ({ item.year })</Text>
+                  style={styles.img} 
+                  source={{ uri: item.uri }} 
+                />
+              ) : (
+                <Skeleton animation="none" width={100} height={160} style={{ marginTop: 10 }}/>
+              )}
+              <View style={styles.textContainer}>
+                <Text style={styles.h2}>{item.title} ({item.year})</Text>
                 <Text style={styles.text}>
                   <Ionicons name="star"> </Ionicons>
-                  { item.rating == null ? 
-                    <Text>No rating </Text>
-                    :
-                    <Text>{ item.rating } </Text>
-                  } 
-                  </Text>
+                  {item.rating == null ? (
+                    <Text>No rating</Text>
+                  ) : (
+                    <Text>{item.rating}</Text>
+                  )} 
+                </Text>
                 <View style={styles.button}>
                   <Button 
-                    titleStyle={{fontSize: 16}}
-                    color='#F44336'
+                    titleStyle={{ fontSize: 16 }}
+                    color='#C9225A'
                     title='Delete' 
-                    onPress={() => deleteFavorite(item.key)}
+                    onPress={() => confirmDelete(item.key)}
                     icon={{
                       size: 16,
                       name: 'trash-outline',
                       type: 'ionicon',
-                      color: '#ffffff'}} />
+                      color: '#ffffff'}}
+                  />
                 </View>
               </View>
-            </View>} />
+            </View>} 
+        />
       </View>
     </View>
   )
@@ -96,13 +119,28 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   h2: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'left',
     marginTop: 10,
     marginBottom: 10,
   },
+  listContainer: {
+    flex: 1, 
+    margin: 10,
+  },
+  itemContainer: {
+    flex: 1, 
+    flexDirection:'row', 
+    marginBottom: 10,
+  },
+  textContainer: {
+    flexDirection: 'column', 
+    paddingLeft:20, 
+    width:'60%'
+  },
   text: {
+    fontSize: 16,
     marginBottom: 10,
   },
   img: {
@@ -112,5 +150,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
+    marginTop: 10,
   }
 });

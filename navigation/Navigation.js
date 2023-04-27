@@ -13,23 +13,24 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        backBehavior= "history"
+        backBehavior='history'
         screenOptions={({ route }) => ({
-          tabBarStyle: { backgroundColor: '#7D1538' },
           headerStyle: { backgroundColor: '#7D1538' },
           headerTitleStyle: { color: 'white' },
+          tabBarActiveTintColor: '#7D1538',
+          tabBarInactiveTintColor: '#484848',
+          tabBarLabelStyle: { fontSize: 14 },
           tabBarIcon: ({ focused, size, color }) => {
             let iconName;
             if (route.name === 'Home') {
-              iconName = 'md-home';
+              iconName = 'home-outline';
             } else if (route.name === 'Search') {
               iconName = 'search-outline';
             } else if (route.name === 'Favorites') {
               iconName = 'bookmark-outline';
             }
-            return <Ionicons name={iconName} size={size} color={'white'} />; 
+            return <Ionicons name={iconName} size={size} color={color} />; 
           },
-          tabBarLabelStyle: { color: 'white' },
       })}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />

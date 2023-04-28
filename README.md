@@ -10,4 +10,4 @@ The user can:
 - remove movies from favorites
 
 ## Technologies & libraries used:
-React Native, Expo, API, Firebase Realtime Database, Firebase Authentication, React Native Elements
+React Native, Expo, API, Firebase Realtime Database, Firebase Authentication, React Native Elements, React Navigation

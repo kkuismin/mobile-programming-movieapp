@@ -9,5 +9,5 @@ The user can:
 - add movies to favorites
 - remove movies from favorites
 
-## Technologies used:
-React Native, Expo, API, Firebase Realtime Database, Firebase Authentication
+## Technologies & libraries used:
+React Native, Expo, API, Firebase Realtime Database, Firebase Authentication, React Native Elements

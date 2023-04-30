@@ -4,13 +4,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, remove, ref, onValue } from 'firebase/database';
-import { getAuth, signOut } from "firebase/auth";
 
 import firebaseConfig from '../firebaseConfig';
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const auth = getAuth(app);
 
 export default function FavoritesScreen() {
 
@@ -48,15 +46,6 @@ export default function FavoritesScreen() {
         cancelable: true
       }
     );
-  }
-
-  const logout = async () => {
-    try {
-      await signOut(auth)
-      Alert.alert("Signed out")
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   const ItemSeparator = () => <View
@@ -113,13 +102,6 @@ export default function FavoritesScreen() {
             </View>} 
         />
       </View>
-      <View style={styles.logoutButton}>
-        <Button 
-          titleStyle={{ fontSize: 16 }}
-          color='#7D1538'
-          title='Sign out' 
-          onPress={() => logout()} />
-      </View>
     </View>
   )
 }
@@ -169,8 +151,5 @@ const styles = StyleSheet.create({
   button: {
     width: 100,
     marginTop: 10,
-  },
-  logoutButton: {
-    marginBottom: 20,
   }
 });

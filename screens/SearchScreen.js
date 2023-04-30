@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Alert, FlatList } from 'react-native';
+import { StyleSheet, View, Keyboard, Image, Alert, FlatList } from 'react-native';
 import { Text, Button, Skeleton, Input, Icon } from '@rneui/themed';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState, useEffect } from 'react';
@@ -29,11 +29,12 @@ export default function SearchScreen({ navigation }) {
       if (data.results.length == 0) {
         Alert.alert('Movie not found');
       } else {
-      setMovies(data.results);
+        setMovies(data.results);
       }
-    }catch (e) {
+    } catch (e) {
       Alert.alert('Error');
     }
+    Keyboard.dismiss();
   }
 
   useEffect(() => {

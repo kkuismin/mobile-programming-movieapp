@@ -5,6 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import MovieDetailsScreen from '../screens/MovieDetailsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +29,8 @@ export default function Navigation() {
               iconName = 'search-outline';
             } else if (route.name === 'Favorites') {
               iconName = 'bookmark-outline';
+            } else if (route.name === 'Settings') {
+              iconName = 'settings-outline';
             }
             return <Ionicons name={iconName} size={size} color={color} />; 
           },
@@ -35,7 +38,8 @@ export default function Navigation() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
-        <Tab.Screen name="Movie details" component={MovieDetailsScreen} options={{ tabBarButton: () => null }}/>
+        <Tab.Screen name="Movie details" component={MovieDetailsScreen} options={{ tabBarButton: () => null }} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )

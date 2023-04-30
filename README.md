@@ -1,5 +1,5 @@
 # MovieApp
-Movie app using MoviesDatabase API. A React Native project made as an assignment for Mobile Programming course.
+Movie app for Android using MoviesDatabase API. A React Native project made as an assignment for Mobile Programming course.
 
 The user can:
 

@@ -159,7 +159,7 @@ export default function SearchScreen({ navigation }) {
                   {item.ratingsSummary.aggregateRating == null ? (
                     <Text>No rating</Text>
                   ) : (
-                    <Text>{item.ratingsSummary.aggregateRating}</Text>
+                    <Text>{item.ratingsSummary.aggregateRating.toFixed(1)}</Text>
                   )} 
                 </Text>
                 <View style={styles.buttonContainer}>

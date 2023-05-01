@@ -102,7 +102,7 @@ export default function MovieDetailsScreen({ route, navigation }) {
           {movieData.ratingsSummary.aggregateRating == null ? (
             <Text style={styles.text}>No rating</Text>
           ) : (
-            <Text style={styles.text}>{movieData.ratingsSummary.aggregateRating}</Text>
+            <Text style={styles.text}>{movieData.ratingsSummary.aggregateRating.toFixed(1)}</Text>
           )}
           <Text style={styles.h2}>Genres:</Text>
           <Text style={styles.text}>

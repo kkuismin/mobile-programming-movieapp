@@ -53,9 +53,9 @@ export default function MovieDetailsScreen({ route, navigation }) {
       ref(database, 'items/'),
       { 
         'title': movieData.titleText.text, 
-        'uri': movieData.primaryImage.url, 
-        'year': movieData.releaseYear.year, 
-        'rating': movieData.ratingsSummary.aggregateRating 
+        'uri': movieData.primaryImage, 
+        'year': movieData.releaseYear, 
+        'rating': movieData.ratingsSummary
       });
     Alert.alert('Movie added to favorites')
   }

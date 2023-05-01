@@ -51,9 +51,9 @@ export default function SearchScreen({ navigation }) {
       ref(database, 'items/'),
       { 
         'title': item.titleText.text, 
-        'uri': item.primaryImage.url, 
-        'year': item.releaseYear.year, 
-        'rating': item.ratingsSummary.aggregateRating
+        'uri': item.primaryImage, 
+        'year': item.releaseYear, 
+        'rating': item.ratingsSummary
       });
       Alert.alert('Movie added to favorites')
   }
@@ -108,10 +108,13 @@ export default function SearchScreen({ navigation }) {
               <Picker.Item label="Animation" value="Animation" />
               <Picker.Item label="Comedy" value="Comedy" />
               <Picker.Item label="Crime" value="Crime" />
+              <Picker.Item label="Documentary" value="Documentary" />
               <Picker.Item label="Drama" value="Drama" />
+              <Picker.Item label="Family" value="Family" />
               <Picker.Item label="Fantasy" value="Fantasy" />
               <Picker.Item label="Horror" value="Horror" />
               <Picker.Item label="Musical" value="Musical" />
+              <Picker.Item label="Romance" value="Romance" />
               <Picker.Item label="Sci-Fi" value="Sci-Fi" />
               <Picker.Item label="Thriller" value="Thriller" />
             </Picker>

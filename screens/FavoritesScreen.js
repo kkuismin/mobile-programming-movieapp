@@ -70,19 +70,19 @@ export default function FavoritesScreen() {
               {item.uri ? (
                 <Image 
                   style={styles.img} 
-                  source={{ uri: item.uri }} 
+                  source={{ uri: item.uri.url }} 
                 />
               ) : (
                 <Skeleton animation="none" width={100} height={160} style={{ marginTop: 10 }}/>
               )}
               <View style={styles.textContainer}>
-                <Text style={styles.h2}>{item.title} ({item.year})</Text>
+                <Text style={styles.h2}>{item.title} ({item.year.year})</Text>
                 <Text style={styles.text}>
                   <Ionicons name="star"> </Ionicons>
-                  {item.rating == null ? (
+                  {item.rating.aggregateRating  == null ? (
                     <Text>No rating</Text>
                   ) : (
-                    <Text>{item.rating}</Text>
+                    <Text>{item.rating.aggregateRating}</Text>
                   )} 
                 </Text>
                 <View style={styles.button}>

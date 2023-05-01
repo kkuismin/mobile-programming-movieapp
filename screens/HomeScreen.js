@@ -48,9 +48,9 @@ export default function HomeScreen({ navigation }) {
       ref(database, 'items/'),
       { 
         'title': item.titleText.text, 
-        'uri': item.primaryImage.url, 
-        'year': item.releaseYear.year, 
-        'rating': item.ratingsSummary.aggregateRating 
+        'uri': item.primaryImage, 
+        'year': item.releaseYear, 
+        'rating': item.ratingsSummary
       });
       Alert.alert('Movie added to favorites')
   }

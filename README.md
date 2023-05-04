@@ -12,4 +12,10 @@ The user can:
 - sign out
 
 ## Technologies & libraries used:
-React Native, Expo, API, Firebase Realtime Database, Firebase Authentication, React Native Elements, React Navigation
+- React Native
+- Expo
+- API
+- Firebase Realtime Database
+- Firebase Authentication
+- React Native Elements
+- React Navigation

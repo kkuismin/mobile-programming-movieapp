@@ -4,6 +4,7 @@ Movie app for Android using MoviesDatabase API. A React Native project made as a
 The user can:
 
 - sign in or register to the app with an email address and password
+- browse high rated movies
 - search for movies with a title and genre
 - click to read more about a movie
 - add movies to favorites
